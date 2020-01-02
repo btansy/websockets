@@ -1,42 +1,47 @@
-var GroceryListItem = (props) => (
+var App = () => (
+  <GroceryList groceryItems={['Bread', 'Cheese', 'Ham']}/>
+);
+
+var GroceryList = (props) => (
   <ul>
-    <li>{props.groceryItems[0]}</li>
-    <li>{props.groceryItems[1]}</li>
-    <li>{props.groceryItems[2]}</li>
+    {props.groceryItems.map(item =>
+      <GroceryListItem key={item} item={item} />
+    )}
   </ul>
 );
 
-var GroceryList = () => (
-  <div>
-    <h3>Grocery List</h3>
-    <GroceryListItem groceryItems={['Bread', 'Cheese', 'Ham']}/>
-  </div>
-);
+class GroceryListItem extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      done: false,
+      mouseOver: false
+    };
+    this.clicked = (event) => {
+      this.setState({
+        done: !this.state.done
+      })
+    };
+    this.mouseOver = (event) => {
+      this.setState({
+        mouseOver: !this.state.mouseOver
+      })
+    }
+  }
 
-ReactDOM.render(<GroceryList />, document.getElementById("app"));
+  render () {
+    var style = {
+      textDecoration: this.state.done ? 'line-through' : 'none',
+      fontWeight: this.state.mouseOver ? 'bold' : 'normal',
+    };
+    return (
+      <li style={style} 
+        onClick={this.clicked.bind(this)} 
+        onMouseEnter={this.mouseOver.bind(this)}
+        onMouseLeave={this.mouseOver.bind(this)}> 
+      {this.props.item}</li>
+    );
+  }
+};
 
-// class GroceryListItem extends React.Component {
-//   constructor(props) {
-//     super(props);
-//   }
-//   render() {
-//     return (
-//       <li>{this.props.groceryItems}</li>
-//     );
-//   }
-// }
-
-// var GroceryList = () => (
-//   <div>
-//     <h3>Grocery List</h3>
-//     <ul>
-//       {props.todos.map(todo =>
-//         <GroceryListItem groceryItems={['Bread', 'Cheese', 'Ham']} />
-//       )}
-//     </ul>
-//   </div>
-// );
-
-
-// ReactDOM.render(<GroceryList />, document.getElementById("app"));
-
+ReactDOM.render(<App />, document.getElementById("app"));
