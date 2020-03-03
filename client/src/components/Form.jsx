@@ -24,15 +24,15 @@ class Form extends React.Component {
   }
 
   handleSubmit(event) {
-    // INSERT SOMETHING HERE
     event.preventDefault();
+    this.props.send(this.state.name, this.state.message);
   }
 
   render() {
     return (
       <form onSubmit={this.handleSubmit}>
         <label>
-          <strong>Name</strong>
+          <strong>Name: </strong>
           <input
             name="name"
             type="text"
@@ -41,7 +41,7 @@ class Form extends React.Component {
         </label>
         <br />
         <label>
-          <strong>Message</strong>
+          <strong>Message: </strong>
           <input
             name="message"
             type="text"

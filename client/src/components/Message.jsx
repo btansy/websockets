@@ -1,6 +1,10 @@
 import React from 'react';
 
 class Message extends React.Component {
+  constructor(props) {
+    super(props);
+  };
+
   render() {
     return (
       <p>
@@ -8,6 +12,6 @@ class Message extends React.Component {
       </p>
     );
   }
-}
+};
 
 export default Message;
