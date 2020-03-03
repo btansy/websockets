@@ -15,7 +15,7 @@ class App extends Component {
   }
 
   sendMessage(name, message) {
-    this.state.ws.send([name,message]);
+    this.state.ws.send(['message',name,message]);
   }
 
   componentDidMount() {
@@ -29,15 +29,17 @@ class App extends Component {
         this.setState({ ws: ws });
       };
     this.state.ws.onmessage = evt => {
-      var temp = this.state.messages.slice()
-      if (temp.length > 20) {
-        temp.shift();
+      if (evt.data.split(',')[0] === 'message') {
+        var temp = this.state.messages.slice()
+        if (temp.length > 20) {
+          temp.shift();
+        }
+        temp.push([evt.data.split(',')[1],evt.data.split(',')[2]]);
+        console.log(temp);
+        this.setState({
+          messages: temp
+        });
       }
-      temp.push([evt.data.split(',')[0],evt.data.split(',')[1]]);
-      console.log(temp);
-      this.setState({
-        messages: temp
-      });
     }
     ws.onclose = e => {
       console.log(
